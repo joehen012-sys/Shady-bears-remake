@@ -1,0 +1,27 @@
+{
+  "player": {
+    "idle": ["player_idle_0.png", "player_idle_1.png"],
+    "walk": [
+      "player_walk_0.png",
+      "player_walk_1.png",
+      "player_walk_2.png",
+      "player_walk_3.png"
+    ],
+    "jump": ["player_jump_0.png"],
+    "fps": 8
+  },
+  "background": {
+    "day": "background_day.png"
+  },
+  "items": {
+    "platform": "platform_tile.png"
+  },
+  "colors": {
+    "player": [225, 120, 70],
+    "player_eye": [25, 25, 25],
+    "background": [18, 32, 58],
+    "platform": [95, 175, 110],
+    "exit": [245, 235, 80],
+    "exit_frame": [185, 120, 45]
+  }
+}
