@@ -77,8 +77,11 @@ while `level_maker` mod is enabled.
 
 ## Screenshots
 
-![Gameplay screenshot 1](screenshots/screenshot_20260502_163954.png)
-![Gameplay screenshot 2](screenshots/screenshot_20260502_163958.png)
-![Gameplay screenshot 3](screenshots/screenshot_20260502_164004.png)
-![Gameplay screenshot 4](screenshots/screenshot_20260502_164050.png)
+| Screenshot | Screenshot |
+|---|---|
+| ![Gameplay screenshot 1](screenshots/screenshot_20260502_163954.png) | ![Gameplay screenshot 2](screenshots/screenshot_20260502_163958.png) |
+| ![Gameplay screenshot 3](screenshots/screenshot_20260502_164004.png) | ![Gameplay screenshot 4](screenshots/screenshot_20260502_164023.png) |
+| ![Gameplay screenshot 5](screenshots/screenshot_20260502_164027.png) | ![Gameplay screenshot 6](screenshots/screenshot_20260502_164036.png) |
+| ![Gameplay screenshot 7](screenshots/screenshot_20260502_164048.png) | ![Gameplay screenshot 8](screenshots/screenshot_20260502_164050.png) |
+| ![Gameplay screenshot 9](screenshots/screenshot_20260502_164052.png) |  |
 
