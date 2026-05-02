@@ -1,5 +1,6 @@
 import pygame
 import settings
+from mod_manager import mod_manager
 
 GRAVITY = 0.6
 JUMP_FORCE = -14
@@ -72,13 +73,15 @@ class Player:
         jump_key = _key_from_name(kb.get("jump", "space"))
 
         keys = pygame.key.get_pressed()
-        jump_down = jump_key is not None and keys[jump_key]
+        jump_down = jump_key is not None and (
+            keys[jump_key] or mod_manager.is_virtual_key_down(jump_key)
+        )
 
         self.vel_x = 0.0
-        if left_key is not None and keys[left_key]:
+        if left_key is not None and (keys[left_key] or mod_manager.is_virtual_key_down(left_key)):
             self.vel_x = -MOVE_SPEED
             self._facing = -1
-        if right_key is not None and keys[right_key]:
+        if right_key is not None and (keys[right_key] or mod_manager.is_virtual_key_down(right_key)):
             self.vel_x = MOVE_SPEED
             self._facing = 1
 

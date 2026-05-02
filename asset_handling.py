@@ -107,6 +107,103 @@ def list_texture_packs():
     return sorted(packs)
 
 
+def load_pack_preview_image(pack_path_str):
+    """Load preview.png from the texture pack's folder.
+
+    Returns a pygame.Surface or None if the file doesn't exist.
+    """
+    try:
+        path = _resolve_texture_pack_path(pack_path_str)
+        if path is None:
+            return None
+        preview = path.parent / "preview.png"
+        if not preview.exists():
+            return None
+        import pygame
+        return pygame.image.load(str(preview)).convert()
+    except Exception:
+        return None
+
+
+def save_pack_preview(pack_path_str, surface):
+    """Save *surface* as preview.png in the pack's folder.
+
+    If preview.png already exists, saves to the pack's screenshots/ subfolder
+    with a timestamped filename instead.  Returns (True, path) on success.
+    """
+    try:
+        path = _resolve_texture_pack_path(pack_path_str)
+        if path is None:
+            return False, "Pack folder not found."
+        preview = path.parent / "preview.png"
+        if preview.exists():
+            import datetime
+            screenshots_dir = path.parent / "screenshots"
+            screenshots_dir.mkdir(exist_ok=True)
+            ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+            dest = screenshots_dir / f"screenshot_{ts}.png"
+            import pygame
+            pygame.image.save(surface, str(dest))
+            return True, str(dest)
+        import pygame
+        pygame.image.save(surface, str(preview))
+        return True, str(preview)
+    except Exception as exc:
+        return False, str(exc)
+
+
+def get_pack_preview_data(pack_path_str):
+    """Return a dict of preview-ready color tuples for a texture pack.
+
+    Keys: name, background, platform, player, player_dark, exit, exit_frame.
+    Falls back to default game colors when a key is absent.
+    """
+    defaults = {
+        "background":  (30, 60, 100),
+        "platform":    (80, 140, 80),
+        "player":      (220, 130, 60),
+        "exit":        (245, 235, 80),
+        "exit_frame":  (180, 120, 40),
+    }
+    result = dict(defaults)
+    result["name"] = get_pack_display_name(pack_path_str)
+    try:
+        path = _resolve_texture_pack_path(pack_path_str)
+        if path and path.exists():
+            with open(path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            colors = data.get("colors", {})
+            for key in defaults:
+                val = colors.get(key)
+                if isinstance(val, (list, tuple)) and len(val) >= 3:
+                    result[key] = tuple(int(c) for c in val[:3])
+    except Exception:
+        pass
+    result["player_dark"] = tuple(max(0, c - 50) for c in result["player"])
+    return result
+
+
+def get_pack_display_name(pack_path_str):
+    """Return a human-readable name for a texture pack.
+
+    Reads the optional top-level ``"name"`` key from the pack JSON.
+    Falls back to the folder name if the key is absent or the file
+    cannot be read.
+    """
+    try:
+        path = _resolve_texture_pack_path(pack_path_str)
+        if path and path.exists():
+            with open(path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            name = data.get("name", "")
+            if isinstance(name, str) and name.strip():
+                return name.strip()
+    except Exception:
+        pass
+    # Fallback: use the parent folder name, title-cased
+    return pathlib.Path(pack_path_str).parent.name.replace("_", " ").title()
+
+
 def create_texture_pack(pack_name, base_pack=None):
     pack_folder = texture_packs_path / pack_name
     pack_folder.mkdir(parents=True, exist_ok=True)
