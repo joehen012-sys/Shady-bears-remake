@@ -77,6 +77,19 @@ while `level_maker` mod is enabled.
 
 ## Screenshots
 
+### By Texture Pack
+
+#### defualt_pack
+![defualt_pack preview](texture_packs/defualt_pack/preview.png)
+
+#### exsample_pack
+![exsample_pack preview](texture_packs/exsample_pack/preview.png)
+
+#### new_pack
+![new_pack preview](texture_packs/new_pack/preview.png)
+
+### Extra Gameplay Screenshots (Not Tagged by Pack)
+
 | Screenshot | Screenshot |
 |---|---|
 | ![Gameplay screenshot 1](screenshots/screenshot_20260502_163954.png) | ![Gameplay screenshot 2](screenshots/screenshot_20260502_163958.png) |
