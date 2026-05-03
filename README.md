@@ -88,8 +88,6 @@ while `level_maker` mod is enabled.
 #### new_pack
 ![new_pack preview](texture_packs/new_pack/preview.png)
 
-### Extra Gameplay Screenshots (Not Tagged by Pack)
-
 #### default
 | Screenshot | Screenshot | Screenshot |
 |---|---|---|
