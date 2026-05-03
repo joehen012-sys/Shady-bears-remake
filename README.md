@@ -75,6 +75,9 @@ Controls inside the editor:
 Saved levels are written to `mods/custom_levels.json` and auto-loaded next launch
 while `level_maker` mod is enabled.
 
+## Making texture packs
+all texture packs need a folder and a .json file telling the asset handling what img is what
+
 ## Screenshots
 
 ### By Texture Pack
