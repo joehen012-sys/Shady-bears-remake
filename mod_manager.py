@@ -170,6 +170,15 @@ def _extract_metadata(module, mod_path_str):
     if cleaned_schema:
         metadata["settings_schema"] = cleaned_schema
 
+    # Expose MOD_INFO["settings"] defaults so the UI can show them even
+    # before the user has saved anything to mod_settings.json.
+    raw_defaults = info.get("settings", {})
+    if isinstance(raw_defaults, dict):
+        clean_defaults = {k: v for k, v in raw_defaults.items()
+                          if isinstance(k, str) and k}
+        if clean_defaults:
+            metadata["settings_defaults"] = clean_defaults
+
     return metadata
 
 

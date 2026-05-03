@@ -1,0 +1,19 @@
+{
+    "mods/costumes.py": {
+        "costume": "bow tie"
+    },
+    "mods/multiplayer.py": {
+        "enabled": true,
+        "p2_lives": 3
+    },
+    "mods/mod_template.py": {
+        "mode": "normal",
+        "speed_mult": 1.0
+    },
+    "mods/acorn_enemy_threshold.py": {
+        "acorns_per_enemy": 10
+    },
+    "mods/survival_ai.py": {
+        "clear_memory": false
+    }
+}

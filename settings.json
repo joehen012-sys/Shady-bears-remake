@@ -2,10 +2,8 @@
     "WINDOW_WIDTH": 1920,
     "WINDOW_HEIGHT": 1080,
     "refresh_rate": 60,
-    "texture_pack": "texture_packs/new_pack/new_pack.json",
-    "mods": [
-        "mods/cheat_menu.py"
-    ],
+    "texture_pack": "texture_packs/defualt_pack/default_pack.json",
+    "mods": [],
     "key_bindings": {
         "jump": "space",
         "crouch": "ctrl",

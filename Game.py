@@ -303,10 +303,13 @@ def _get_mod_setting_entries(mod_path):
     schema = meta.get("settings_schema", {})
     if not isinstance(schema, dict):
         schema = {}
+    defaults = meta.get("settings_defaults", {})
+    if not isinstance(defaults, dict):
+        defaults = {}
     current = mod_manager.get_mod_settings(mod_path)
 
-    keys = sorted(set(current.keys()) | set(
-        schema.keys()), key=lambda k: str(k).lower())
+    keys = sorted(set(current.keys()) | set(schema.keys()) | set(defaults.keys()),
+                  key=lambda k: str(k).lower())
     entries = []
     for key in keys:
         if not isinstance(key, str):
@@ -315,7 +318,12 @@ def _get_mod_setting_entries(mod_path):
         if not isinstance(rule, dict):
             rule = {}
 
-        value = current[key] if key in current else rule.get("default", "")
+        if key in current:
+            value = current[key]
+        elif "default" in rule:
+            value = rule["default"]
+        else:
+            value = defaults.get(key, "")
         stype = _coerce_mod_setting_type(value, rule)
         choices = rule.get("choices", [])
         if not isinstance(choices, (list, tuple)):
@@ -424,7 +432,13 @@ def draw_mods_submenu(surface, font, title_font, selected_index, all_mods,
     else:
         rows = list(all_mods) + ["Back"]
         for i, row in enumerate(rows):
+            row_y = start_y + i * line_height
             is_selected = (i == selected_index)
+            if is_selected:
+                hl = pygame.Surface(
+                    (surface.get_width(), line_height - 4), pygame.SRCALPHA)
+                hl.fill((90, 150, 120, 110))
+                surface.blit(hl, (0, row_y + 2))
             color = (120, 225, 160) if is_selected else (220, 220, 220)
             prefix = "> " if is_selected else "  "
             if i < len(all_mods):
@@ -433,13 +447,15 @@ def draw_mods_submenu(surface, font, title_font, selected_index, all_mods,
                     row) else (180, 80, 80)
                 _ms = mod_manager.get_mod_status(row) or {}
                 _display = (_ms.get("metadata") or {}).get("name") or row
+                text_y = row_y + (line_height - font.get_height()) // 2
                 surface.blit(font.render(f"{prefix}{_display}", True, color),
-                             (60, start_y + i * line_height))
+                             (60, text_y))
                 surface.blit(font.render(status, True, status_color),
-                             (surface.get_width() - 100, start_y + i * line_height))
+                             (surface.get_width() - 100, text_y))
             else:
+                text_y = row_y + (line_height - font.get_height()) // 2
                 surface.blit(font.render(f"{prefix}{row}", True, color),
-                             (60, start_y + i * line_height))
+                             (60, text_y))
 
     if all_mods and 0 <= selected_index < len(all_mods):
         selected_path = all_mods[selected_index]
@@ -530,8 +546,15 @@ def draw_texture_pack_submenu(surface, font, title_font, packs, selected_index, 
     line_height = 36
 
     for i, row in enumerate(rows):
+        row_y = start_y + i * line_height
         is_cursor = i == selected_index
         is_active_pack = i < len(packs) and row == active_pack
+
+        if is_cursor:
+            hl = pygame.Surface(
+                (surface.get_width(), line_height - 4), pygame.SRCALPHA)
+            hl.fill((85, 145, 120, 115))
+            surface.blit(hl, (0, row_y + 2))
 
         if is_active_pack:
             color = (170, 255, 170)  # Light green for currently applied pack
@@ -545,7 +568,8 @@ def draw_texture_pack_submenu(surface, font, title_font, packs, selected_index, 
         display = asset_handling.get_pack_display_name(
             row) if i < len(packs) else row
         line = font.render(f"{prefix}{display}{suffix}", True, color)
-        surface.blit(line, (60, start_y + i * line_height))
+        text_y = row_y + (line_height - font.get_height()) // 2
+        surface.blit(line, (60, text_y))
 
     # ── Preview panel ────────────────────────────────────────────────────────
     if 0 <= selected_index < len(packs):
@@ -1579,6 +1603,15 @@ def main():
                         if key in lm_tiles:
                             lm_tiles.remove(key)
                         continue
+
+                # Right-click on a mod row → open its settings panel
+                if event.button == 3 and menu_state == "settings_mods":
+                    hit = _hit_row(my, 130, 36, len(all_mods))
+                    if hit >= 0:
+                        mods_selected_index = hit
+                        mods_panel_focus = "settings"
+                        mods_setting_index = 0
+                    continue
 
                 if event.button != 1:
                     continue
