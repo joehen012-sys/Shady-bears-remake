@@ -76,8 +76,36 @@ Saved levels are written to `mods/custom_levels.json` and auto-loaded next launc
 while `level_maker` mod is enabled.
 
 ## Making texture packs
-all texture packs need a folder and a .json file telling the asset handling what img is what
+all texture packs need a folder and a .json file within the folder telling the asset handling what img is what
 
+ex.
+{
+  "player": {
+    "idle": ["player_idle_0.png", "player_idle_1.png"],
+    "walk": [
+      "player_walk_0.png",
+      "player_walk_1.png",
+      "player_walk_2.png",
+      "player_walk_3.png"
+    ],
+    "jump": ["player_jump_0.png"],
+    "fps": 8
+  },
+  "background": {
+    "day": "background_day.png"
+  },
+  "items": {
+    "platform": "platform_tile.png"
+  },
+  "colors": {
+    "player": [220, 130, 60],
+    "player_eye": [30, 30, 30],
+    "background": [30, 60, 100],
+    "platform": [80, 140, 80],
+    "exit": [255, 220, 50],
+    "exit_frame": [160, 100, 40]
+  }
+}
 ## Screenshots
 
 ### By Texture Pack
