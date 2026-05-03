@@ -78,7 +78,6 @@ while `level_maker` mod is enabled.
 ## Making texture packs
 all texture packs need a folder and a .json file within the folder telling the asset handling what img is what
 
-ex
 ## Screenshots
 
 ### By Texture Pack
